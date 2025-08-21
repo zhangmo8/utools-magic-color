@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "shadcn-vue": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@jpisnice/shadcn-ui-mcp-server",
+        "--framework",
+        "vue"
+      ]
+    }
+  },
+  "inputs": []
+}
