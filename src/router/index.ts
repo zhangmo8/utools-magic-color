@@ -6,6 +6,11 @@ const routes = [
     redirect: '/color-match',
   },
   {
+    path: '/color-transform',
+    name: 'ColorTransform',
+    component: () => import('@/pages/ColorTransform.vue'),
+  },
+  {
     path: '/color-match',
     name: 'ColorMatch',
     component: () => import('@/pages/ColorMatch.vue'),

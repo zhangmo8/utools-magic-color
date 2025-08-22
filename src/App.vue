@@ -1,64 +1,67 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
-
-const router = useRouter()
-
-function navigate(path: string) {
-  router.push(path)
-}
-
-const menuItems = [
-  { label: '颜色匹配', path: '/color-match' },
-  { label: '颜色主题', path: '/color-themes' },
-  { label: '预设主题', path: '/preset-themes' },
-  { label: '导出主题', path: '/export-themes' },
+const menuItems: Array<{ label: string, icon: string, route: string, separator?: boolean }> = [
+  { label: '颜色转换', icon: 'i-carbon-color-palette', route: '/color-transform' },
+  { label: '对比度', icon: 'i-carbon-brightness-contrast', route: '/color-match' },
+  { label: '衍生颜色', icon: 'i-carbon-stacked-scrolling-2', route: '/color-themes' },
+  { label: '衍生代码', icon: 'i-carbon-terminal', route: '/export-themes' },
+  { label: '预设色卡', icon: 'i-carbon-window-preset', route: '/preset-themes' },
 ]
 </script>
 
 <template>
-  <SidebarProvider>
-    <Sidebar>
-      <SidebarHeader>
-        <h2 class="text-lg font-semibold">
-          MagicColor
-        </h2>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>功能菜单</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem v-for="item in menuItems" :key="item.path">
-                <SidebarMenuButton @click="navigate(item.path)">
+  <main class="size-screen bg-base transition-theme">
+    <div class="size-full flex">
+      <div class="w-70 h-full flex flex-col">
+        <ScrollPanel class="flex-1 h-0">
+          <div class="flex items-center justify-between p-4">
+            <h3 class="text-lg font-bold m-0 text-[color:var(--p-text-color)]">
+              MagicColor uTools
+            </h3>
+            <ThemeToggle text />
+          </div>
+          <Divider class="!m-0" />
+          <ul class="list-none m-0 p-2">
+            <li v-for="item in menuItems" :key="item.label" class="[&+li]:mt-2">
+              <RouterLink
+                :to="item.route"
+                class="no-underline w-full text-base fc p-4 gap-3 hbg rounded cursor-pointer"
+                :class="[{ activeBg: item.route === $route.path }]"
+              >
+                <i :class="item.icon" />
+                <div class="font-bold">
                   {{ item.label }}
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-    <SidebarInset>
-      <header class="flex h-16 items-center gap-2 border-b px-4">
-        <SidebarTrigger class="-ml-1" />
-      </header>
-      <div class="flex-1 space-y-4 p-4">
-        <router-view />
+                </div>
+              </RouterLink>
+            </li>
+          </ul>
+        </ScrollPanel>
+        <a
+          v-ripple
+          target="_blank"
+          href="https://github.com/zyyv/magic-color"
+          class="no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
+        >
+          <i class="pi pi-github !text-7" />
+          <div class="font-bold">Github</div>
+        </a>
+        <a
+          v-ripple
+          target="_blank"
+          href="https://github.com/zyyv/magic-color"
+          class="mt-2 no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
+        >
+          <Avatar image="https://raw.githubusercontent.com/zyyv/magic-color/main/public/logo.svg" shape="circle" />
+          <div class="font-bold">MagicColor</div>
+        </a>
       </div>
-    </SidebarInset>
-  </SidebarProvider>
+
+      <Divider class="!mx-0" layout="vertical" />
+
+      <ScrollPanel class="flex-1 h-full">
+        <div class="p-6">
+          <router-view />
+        </div>
+      </ScrollPanel>
+    </div>
+  </main>
 </template>

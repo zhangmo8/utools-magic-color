@@ -3,7 +3,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": [
+      "./auto-imports.d.ts"
+    ]
   },
   "references": [
     { "path": "./tsconfig.app.json" },
