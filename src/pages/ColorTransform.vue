@@ -3,10 +3,21 @@ import { mc } from 'magic-color'
 import InputText from 'primevue/inputtext'
 import Toast from 'primevue/toast'
 import { computed, ref } from 'vue'
+import ColorResultCard from '../components/ColorResultCard.vue'
 
 const inputValue = ref('#FF5733')
 const errorMessage = ref('')
 const currentColor = ref<any>(null)
+
+// 颜色格式配置
+const colorFormats = [
+  { name: 'HEX', key: 'hex', description: '网页开发最常用格式' },
+  { name: 'RGB', key: 'rgb', description: '红绿蓝三原色' },
+  { name: 'HSL', key: 'hsl', description: '色相、饱和度、亮度' },
+  { name: 'HSB', key: 'hsb', description: '色相、饱和度、明度' },
+  { name: 'LAB', key: 'lab', description: 'CIE 1976 LAB* 色彩空间' },
+  { name: 'LCH', key: 'lch', description: 'CIE LCH 色彩空间' },
+]
 
 // 常用颜色
 const commonColors = [
@@ -32,89 +43,71 @@ const previewColor = computed(() => {
   return '#FFFFFF'
 })
 
-const hexResult = computed(() => {
-  if (currentColor.value) {
-    return currentColor.value.css('hex').toUpperCase()
-  }
-  return ''
-})
+// 获取颜色结果的通用函数
+function getColorResult(format: string): string {
+  if (!currentColor.value)
+    return ''
 
-const rgbResult = computed(() => {
-  if (currentColor.value) {
-    return currentColor.value.css('rgb')
-  }
-  return ''
-})
-
-const hslResult = computed(() => {
-  if (currentColor.value) {
-    return currentColor.value.css('hsl')
-  }
-  return ''
-})
-
-const labResult = computed(() => {
-  if (currentColor.value) {
-    try {
-      // 尝试使用 css 方法
-      return currentColor.value.css('lab')
-    }
-    catch {
-      // 如果不支持 css 格式，尝试使用 value 方法
-      try {
-        const lab = currentColor.value.value('lab')
-        if (Array.isArray(lab) && lab.length >= 3) {
-          return `lab(${Math.round(lab[0] || 0)} ${Math.round(lab[1] || 0)} ${Math.round(lab[2] || 0)})`
+  try {
+    switch (format) {
+      case 'hex':
+        return currentColor.value.css('hex').toUpperCase()
+      case 'rgb':
+        return currentColor.value.css('rgb')
+      case 'hsl':
+        return currentColor.value.css('hsl')
+      case 'hsb': {
+        // 尝试使用 value 方法获取 HSB 值
+        const hsb = currentColor.value.value('hsb')
+        if (Array.isArray(hsb) && hsb.length >= 3) {
+          return `hsb(${Math.round(hsb[0] || 0)}, ${Math.round(hsb[1] || 0)}%, ${Math.round(hsb[2] || 0)}%)`
         }
-        return 'LAB 转换暂不支持'
+        // 如果上面不行，尝试使用 css 方法
+        return currentColor.value.css('hsb')
       }
-      catch {
-        return 'LAB 转换暂不支持'
-      }
-    }
-  }
-  return ''
-})
-
-const lchResult = computed(() => {
-  if (currentColor.value) {
-    try {
-      // 尝试使用 css 方法
-      return currentColor.value.css('lch')
-    }
-    catch {
-      // 如果不支持 css 格式，尝试使用 value 方法
-      try {
-        const lch = currentColor.value.value('lch')
-        if (Array.isArray(lch) && lch.length >= 3) {
-          return `lch(${Math.round(lch[0] || 0)} ${Math.round(lch[1] || 0)} ${Math.round(lch[2] || 0)})`
+      case 'lab': {
+        // 尝试使用 css 方法
+        try {
+          return currentColor.value.css('lab')
         }
-        return 'LCH 转换暂不支持'
+        catch {
+          // 如果不支持 css 格式，尝试使用 value 方法
+          const lab = currentColor.value.value('lab')
+          if (Array.isArray(lab) && lab.length >= 3) {
+            return `lab(${Math.round(lab[0] || 0)} ${Math.round(lab[1] || 0)} ${Math.round(lab[2] || 0)})`
+          }
+          return 'LAB 转换暂不支持'
+        }
       }
-      catch {
-        return 'LCH 转换暂不支持'
+      case 'lch': {
+        // 尝试使用 css 方法
+        try {
+          return currentColor.value.css('lch')
+        }
+        catch {
+          // 如果不支持 css 格式，尝试使用 value 方法
+          const lch = currentColor.value.value('lch')
+          if (Array.isArray(lch) && lch.length >= 3) {
+            return `lch(${Math.round(lch[0] || 0)} ${Math.round(lch[1] || 0)} ${Math.round(lch[2] || 0)})`
+          }
+          return 'LCH 转换暂不支持'
+        }
       }
+      default:
+        return `${format.toUpperCase()} 转换暂不支持`
     }
   }
-  return ''
-})
+  catch {
+    return `${format.toUpperCase()} 转换暂不支持`
+  }
+}
 
-const hsbResult = computed(() => {
-  if (currentColor.value) {
-    try {
-      // 尝试使用 value 方法获取 HSB 值
-      const hsb = currentColor.value.value('hsb')
-      if (Array.isArray(hsb) && hsb.length >= 3) {
-        return `hsb(${Math.round(hsb[0] || 0)}, ${Math.round(hsb[1] || 0)}%, ${Math.round(hsb[2] || 0)}%)`
-      }
-      // 如果上面不行，尝试使用 css 方法
-      return currentColor.value.css('hsb')
-    }
-    catch {
-      return 'HSB 转换暂不支持'
-    }
-  }
-  return ''
+// 颜色结果数据
+const colorResults = computed(() => {
+  return colorFormats.map(format => ({
+    ...format,
+    value: getColorResult(format.key),
+  }))
 })
 
 // 方法
@@ -201,77 +194,12 @@ setTimeout(() => {
       </h3>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            HEX
-          </h4>
-          <p class="font-mono">
-            {{ hexResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            网页开发最常用格式
-          </p>
-        </div>
-
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            RGB
-          </h4>
-          <p class="font-mono">
-            {{ rgbResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            红绿蓝三原色
-          </p>
-        </div>
-
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            HSL
-          </h4>
-          <p class="font-mono">
-            {{ hslResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            色相、饱和度、亮度
-          </p>
-        </div>
-
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            HSB
-          </h4>
-          <p class="font-mono">
-            {{ hsbResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            色相、饱和度、明度
-          </p>
-        </div>
-
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            LAB
-          </h4>
-          <p class="font-mono">
-            {{ labResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            CIE 1976 LAB* 色彩空间
-          </p>
-        </div>
-
-        <div class="border border-surface rounded p-4">
-          <h4 class="font-bold">
-            LCH
-          </h4>
-          <p class="font-mono">
-            {{ lchResult }}
-          </p>
-          <p class="text-xs opacity-70 mt-1">
-            CIE LCH 色彩空间
-          </p>
-        </div>
+        <ColorResultCard
+          v-for="result in colorResults"
+          :key="result.key"
+          :color-format="result"
+          :color-value="result.value"
+        />
       </div>
     </div>
 
@@ -284,7 +212,7 @@ setTimeout(() => {
         <div
           v-for="color in commonColors"
           :key="color.hex"
-          class="w-12 h-12 rounded-lg border-2 border-base cursor-pointer hover:scale-110 transition-transform"
+          class="w-12 h-12 rounded-lg border-2 border cursor-pointer hover:scale-110 transition-transform"
           :style="{ backgroundColor: color.hex }"
           :title="`${color.name} - ${color.hex}`"
           @click="selectCommonColor(color.hex)"
@@ -298,18 +226,18 @@ setTimeout(() => {
       <h3 class="text-lg font-medium mb-4">
         支持的颜色格式
       </h3>
-      <div class="text-sm opacity-70 space-y-2">
-        <div>• <strong>HEX:</strong> 十六进制格式，如 #FF5733、#3b82f6</div>
-        <div>• <strong>RGB:</strong> 红绿蓝格式，如 rgb(255, 87, 51)、rgba(59, 130, 246, 0.8)</div>
-        <div>• <strong>HSL:</strong> 色相、饱和度、亮度格式，如 hsl(11, 100%, 60%)</div>
-        <div>• <strong>HSB:</strong> 色相、饱和度、明度格式，如 hsb(217, 76%, 96%)</div>
-        <div>• <strong>LAB:</strong> CIE 1976 LAB* 色彩空间，更接近人眼感知</div>
-        <div>• <strong>LCH:</strong> CIE LCH 色彩空间，亮度-色度-色相</div>
-        <div>• <strong>颜色名:</strong> CSS 颜色关键字，如 red、blue、green</div>
-        <div class="mt-3 p-3 bg-blue-50 border border-blue-200 rounded">
-          <strong>提示:</strong> 直接输入任何格式的颜色值，系统会自动识别并转换为其他格式
-        </div>
-      </div>
+      <ul class="text-sm opacity-70 space-y-2">
+        <li><strong>HEX:</strong> 十六进制格式，如 #FF5733、#3b82f6</li>
+        <li><strong>RGB:</strong> 红绿蓝格式，如 rgb(255, 87, 51)、rgba(59, 130, 246, 0.8)</li>
+        <li><strong>HSL:</strong> 色相、饱和度、亮度格式，如 hsl(11, 100%, 60%)</li>
+        <li><strong>HSB:</strong> 色相、饱和度、明度格式，如 hsb(217, 76%, 96%)</li>
+        <li><strong>LAB:</strong> CIE 1976 LAB* 色彩空间，更接近人眼感知</li>
+        <li><strong>LCH:</strong> CIE LCH 色彩空间，亮度-色度-色相</li>
+        <li><strong>颜色名:</strong> CSS 颜色关键字，如 red、blue、green</li>
+      </ul>
+      <Message class="text-sm">
+        提示: 直接输入任何格式的颜色值，系统会自动识别并转换为其他格式
+      </Message>
     </div>    <!-- Toast 组件 -->
     <Toast />
   </div>
