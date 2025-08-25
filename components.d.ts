@@ -11,8 +11,11 @@ declare module 'vue' {
     Avatar: typeof import('primevue/avatar')['default']
     Badge: typeof import('primevue/badge')['default']
     Button: typeof import('primevue/button')['default']
+    Card: typeof import('primevue/card')['default']
+    ColorPicker: typeof import('primevue/colorpicker')['default']
     ColorResultCard: typeof import('./src/components/ColorResultCard.vue')['default']
     Divider: typeof import('primevue/divider')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
     Message: typeof import('primevue/message')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -22,6 +25,7 @@ declare module 'vue' {
     Splitter: typeof import('primevue/splitter')['default']
     SplitterPanel: typeof import('primevue/splitterpanel')['default']
     ThemeToggle: typeof import('./src/components/ThemeToggle.vue')['default']
+    Toast: typeof import('primevue/toast')['default']
   }
   export interface GlobalDirectives {
     Ripple: typeof import('primevue/ripple')['default']

@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { mc } from 'magic-color'
-import InputText from 'primevue/inputtext'
-import Toast from 'primevue/toast'
-import { computed, ref } from 'vue'
-import ColorResultCard from '../components/ColorResultCard.vue'
 
-const inputValue = ref('#FF5733')
 const errorMessage = ref('')
 const currentColor = ref<any>(null)
+
+// 使用全局主题色状态
+const { themeColor, setThemeColor } = useThemeColor()
 
 const colorFormats = [
   { name: 'HEX', key: 'hex', description: '网页开发最常用格式' },
@@ -32,13 +30,6 @@ const commonColors = [
   { name: '黑色', hex: '#000000' },
   { name: '白色', hex: '#FFFFFF' },
 ]
-
-const previewColor = computed(() => {
-  if (currentColor.value) {
-    return currentColor.value.css()
-  }
-  return '#FFFFFF'
-})
 
 function getColorResult(format: string): string {
   if (!currentColor.value)
@@ -108,7 +99,6 @@ const colorResults = computed(() => {
 function parseColor(value: string) {
   try {
     errorMessage.value = ''
-    // 让 magic-color 自动推导颜色格式
     const color = mc(value)
     currentColor.value = color
     return color
@@ -121,15 +111,22 @@ function parseColor(value: string) {
 }
 
 function handleInput() {
-  const value = inputValue.value.trim()
+  const value = themeColor.value.trim()
   if (value) {
     parseColor(value)
   }
 }
 
 function selectCommonColor(hex: string) {
-  inputValue.value = hex
+  themeColor.value = hex
   parseColor(hex)
+}
+
+function setAsThemeColor() {
+  if (currentColor.value) {
+    const hexColor = currentColor.value.css('hex')
+    setThemeColor(hexColor)
+  }
 }
 
 onMounted(handleInput)
@@ -155,17 +152,10 @@ onMounted(handleInput)
       <div class="grid grid-cols-12 gap-4">
         <div class="col-span-8">
           <InputText
-            v-model="inputValue"
+            v-model="themeColor"
             placeholder="例如：#FF5733, rgb(255, 87, 51), hsl(11, 100%, 60%), lab(62 52 64), blue"
             class="w-full"
             @input="handleInput"
-          />
-        </div>
-
-        <div class="col-span-4">
-          <div
-            class="w-full h-10 border-2 border-base rounded"
-            :style="{ backgroundColor: previewColor }"
           />
         </div>
       </div>
@@ -176,9 +166,17 @@ onMounted(handleInput)
     </div>
 
     <div v-if="!errorMessage && currentColor" class="space-y-4">
-      <h3 class="text-lg font-medium">
-        转换结果
-      </h3>
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium">
+          转换结果
+        </h3>
+        <Button
+          label="设为主题色"
+          icon="pi pi-palette"
+          size="small"
+          @click="setAsThemeColor"
+        />
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ColorResultCard

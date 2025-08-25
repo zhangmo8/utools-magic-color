@@ -255,6 +255,7 @@ declare global {
   const useTextSelection: typeof import('@vueuse/core')['useTextSelection']
   const useTextareaAutosize: typeof import('@vueuse/core')['useTextareaAutosize']
   const useTheme: typeof import('./src/composables/useTheme')['useTheme']
+  const useThemeColor: typeof import('./src/composables/useThemeColor')['useThemeColor']
   const useThrottle: typeof import('@vueuse/core')['useThrottle']
   const useThrottleFn: typeof import('@vueuse/core')['useThrottleFn']
   const useThrottledRefHistory: typeof import('@vueuse/core')['useThrottledRefHistory']
@@ -559,6 +560,7 @@ declare module 'vue' {
     readonly useTextSelection: UnwrapRef<typeof import('@vueuse/core')['useTextSelection']>
     readonly useTextareaAutosize: UnwrapRef<typeof import('@vueuse/core')['useTextareaAutosize']>
     readonly useTheme: UnwrapRef<typeof import('./src/composables/useTheme')['useTheme']>
+    readonly useThemeColor: UnwrapRef<typeof import('./src/composables/useThemeColor')['useThemeColor']>
     readonly useThrottle: UnwrapRef<typeof import('@vueuse/core')['useThrottle']>
     readonly useThrottleFn: UnwrapRef<typeof import('@vueuse/core')['useThrottleFn']>
     readonly useThrottledRefHistory: UnwrapRef<typeof import('@vueuse/core')['useThrottledRefHistory']>
