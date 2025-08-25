@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 interface ColorFormat {
   name: string
@@ -20,12 +20,21 @@ const isError = computed(() => {
   return props.colorValue.includes('转换暂不支持') || !props.colorValue
 })
 
+const showFeedback = ref(false)
+
 async function copyToClipboard() {
   if (isError.value)
     return
 
   try {
     await navigator.clipboard.writeText(props.colorValue)
+
+    // 显示成功反馈
+    showFeedback.value = true
+    setTimeout(() => {
+      showFeedback.value = false
+    }, 300)
+
     toast.add({
       severity: 'success',
       summary: '复制成功',
@@ -58,12 +67,15 @@ async function copyToClipboard() {
       </h4>
       <Button
         v-if="!isError"
-        severity="secondary" variant="text"
-        class="opacity-0 group-hover:opacity-100 transition-all duration-300 z-2"
+        :severity=" showFeedback ? 'success' : 'secondary'"
+        :variant="showFeedback ? '' : 'text'"
+        class="transition-all duration-300 z-2"
+        :class="showFeedback ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
         :title="`复制 ${colorFormat.name} 值`"
         @click.stop="copyToClipboard"
       >
-        <i class="pi pi-copy text-sm" />
+        <i v-if="!showFeedback" class="pi pi-copy text-sm" />
+        <i v-else class="pi pi-check text-sm" />
       </Button>
     </div>
 

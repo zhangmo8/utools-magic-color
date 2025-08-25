@@ -9,7 +9,8 @@
       ]
     },
     "types": [
-      "./auto-imports.d.ts"
+      "./auto-imports.d.ts",
+      "utools-api-types"
     ],
 
     /* Linting */
@@ -23,6 +24,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "public/preload/service.js"
   ]
 }

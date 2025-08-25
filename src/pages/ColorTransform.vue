@@ -9,7 +9,6 @@ const inputValue = ref('#FF5733')
 const errorMessage = ref('')
 const currentColor = ref<any>(null)
 
-// 颜色格式配置
 const colorFormats = [
   { name: 'HEX', key: 'hex', description: '网页开发最常用格式' },
   { name: 'RGB', key: 'rgb', description: '红绿蓝三原色' },
@@ -19,7 +18,6 @@ const colorFormats = [
   { name: 'LCH', key: 'lch', description: 'CIE LCH 色彩空间' },
 ]
 
-// 常用颜色
 const commonColors = [
   { name: '红色', hex: '#FF0000' },
   { name: '绿色', hex: '#00FF00' },
@@ -35,7 +33,6 @@ const commonColors = [
   { name: '白色', hex: '#FFFFFF' },
 ]
 
-// 计算属性
 const previewColor = computed(() => {
   if (currentColor.value) {
     return currentColor.value.css()
@@ -43,7 +40,6 @@ const previewColor = computed(() => {
   return '#FFFFFF'
 })
 
-// 获取颜色结果的通用函数
 function getColorResult(format: string): string {
   if (!currentColor.value)
     return ''
@@ -102,7 +98,6 @@ function getColorResult(format: string): string {
   }
 }
 
-// 颜色结果数据
 const colorResults = computed(() => {
   return colorFormats.map(format => ({
     ...format,
@@ -110,7 +105,6 @@ const colorResults = computed(() => {
   }))
 })
 
-// 方法
 function parseColor(value: string) {
   try {
     errorMessage.value = ''
@@ -138,10 +132,7 @@ function selectCommonColor(hex: string) {
   parseColor(hex)
 }
 
-// 初始化
-setTimeout(() => {
-  handleInput()
-}, 0)
+onMounted(handleInput)
 </script>
 
 <template>
@@ -162,7 +153,6 @@ setTimeout(() => {
       </div>
 
       <div class="grid grid-cols-12 gap-4">
-        <!-- 颜色输入 -->
         <div class="col-span-8">
           <InputText
             v-model="inputValue"
@@ -172,7 +162,6 @@ setTimeout(() => {
           />
         </div>
 
-        <!-- 颜色预览 -->
         <div class="col-span-4">
           <div
             class="w-full h-10 border-2 border-base rounded"
@@ -181,13 +170,11 @@ setTimeout(() => {
         </div>
       </div>
 
-      <!-- 错误提示 -->
       <div v-if="errorMessage" class="mt-2 p-3 bg-red-50 border border-red-200 rounded text-red-700">
         {{ errorMessage }}
       </div>
     </div>
 
-    <!-- 转换结果 -->
     <div v-if="!errorMessage && currentColor" class="space-y-4">
       <h3 class="text-lg font-medium">
         转换结果
@@ -203,7 +190,6 @@ setTimeout(() => {
       </div>
     </div>
 
-    <!-- 常用颜色快速选择 -->
     <div class="mt-8">
       <h3 class="text-lg font-medium mb-4">
         常用颜色
@@ -220,8 +206,6 @@ setTimeout(() => {
       </div>
     </div>
 
-    <!-- 使用说明 -->
-    <!-- 使用说明 -->
     <div class="mt-8">
       <h3 class="text-lg font-medium mb-4">
         支持的颜色格式
@@ -238,7 +222,7 @@ setTimeout(() => {
       <Message class="text-sm">
         提示: 直接输入任何格式的颜色值，系统会自动识别并转换为其他格式
       </Message>
-    </div>    <!-- Toast 组件 -->
+    </div>
     <Toast />
   </div>
 </template>
