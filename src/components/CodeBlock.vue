@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { codeToHtml } from 'shiki'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useTheme } from '@/composables/useTheme'
 
 const props = defineProps<{
   code: string
@@ -8,6 +9,9 @@ const props = defineProps<{
 }>()
 
 const htmlCode = ref('')
+const { isDark } = useTheme()
+
+const currentTheme = computed(() => isDark.value ? 'min-dark' : 'min-light')
 
 async function highlightCode() {
   if (!props.code)
@@ -16,7 +20,7 @@ async function highlightCode() {
   try {
     htmlCode.value = await codeToHtml(props.code, {
       lang: props.lang,
-      theme: 'min-light',
+      theme: currentTheme.value,
     })
   }
   catch (error) {
@@ -26,7 +30,7 @@ async function highlightCode() {
 }
 
 onMounted(highlightCode)
-watch(() => [props.code, props.lang], highlightCode)
+watch(() => [props.code, props.lang, currentTheme.value], highlightCode)
 </script>
 
 <template>
