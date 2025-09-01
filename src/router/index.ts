@@ -25,11 +25,6 @@ const routes = [
     name: 'PresetThemes',
     component: () => import('@/pages/PresetThemes.vue'),
   },
-  {
-    path: '/export-themes',
-    name: 'ExportThemes',
-    component: () => import('@/pages/ExportThemes.vue'),
-  },
 ]
 
 export const router = createRouter({

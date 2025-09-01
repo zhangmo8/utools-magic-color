@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import ColorInput from './components/ColorInput.vue'
+
 const menuItems: Array<{ label: string, icon: string, route: string, separator?: boolean }> = [
   { label: '颜色转换', icon: 'i-carbon-color-palette', route: '/color-transform' },
   { label: '对比度', icon: 'i-carbon-brightness-contrast', route: '/color-match' },
   { label: '衍生颜色', icon: 'i-carbon-stacked-scrolling-2', route: '/color-themes' },
-  { label: '衍生代码', icon: 'i-carbon-terminal', route: '/export-themes' },
   { label: '预设色卡', icon: 'i-carbon-window-preset', route: '/preset-themes' },
 ]
+
+const { themeColor } = useThemeColor()
 </script>
 
 <template>
@@ -35,6 +38,7 @@ const menuItems: Array<{ label: string, icon: string, route: string, separator?:
             </li>
           </ul>
         </ScrollPanel>
+        <ColorInput v-model="themeColor" class="p-4 " />
         <a
           v-ripple
           target="_blank"
