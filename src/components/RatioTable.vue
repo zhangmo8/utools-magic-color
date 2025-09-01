@@ -65,7 +65,7 @@ const tdBaseClass = 'aspect-square p-0'
     </div>
 
     <div
-      class="table-container mx-auto max-w-70vw w-full overflow-x-auto"
+      class="table-container mx-auto text-xs w-67% w-full overflow-x-auto"
       :style="{ '--columns': columnsCount }"
     >
       <table class="ratio-table w-full table-fixed border-collapse">
