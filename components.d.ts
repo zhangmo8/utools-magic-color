@@ -23,6 +23,8 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Menu: typeof import('primevue/menu')['default']
     Message: typeof import('primevue/message')['default']
+    RatioTable: typeof import('./src/components/RatioTable.vue')['default']
+    RatioTableSquare: typeof import('./src/components/RatioTableSquare.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScrollPanel: typeof import('primevue/scrollpanel')['default']
