@@ -53,6 +53,9 @@ const text = computed(() => {
 const { copy } = useClipboard({ source: props.backgroundColor })
 
 function copyColor() {
+  if (!isDisplay.value) {
+    return
+  }
   copy(props.backgroundColor)
   toast.add({
     severity: 'success',
@@ -64,7 +67,7 @@ function copyColor() {
 </script>
 
 <template>
-  <div class="fcc aspect-square hover:rd-1/2 transition-all cursor-pointer" :class="[isDisplay ? '' : 'placeholder']" :style="isDisplay ? { backgroundColor, color } : {}" @click="copyColor()">
+  <div class="fcc aspect-square transition-all" :class="[isDisplay ? 'hover:rd-1/2 cursor-pointer' : 'placeholder']" :style="isDisplay ? { backgroundColor, color } : {}" @click="copyColor()">
     {{ text }}
   </div>
 </template>
