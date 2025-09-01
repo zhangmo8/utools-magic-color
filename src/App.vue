@@ -62,7 +62,7 @@ const { themeColor } = useThemeColor()
       <Divider class="!mx-0" layout="vertical" />
 
       <ScrollPanel class="flex-1 h-full">
-        <div class="p-6">
+        <div class="px-6 pb-6">
           <router-view />
         </div>
       </ScrollPanel>

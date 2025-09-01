@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mb-6">
+  <div class="py-6 sticky top-0 bg-base z-9">
     <h1 class="m-0 text-2xl font-bold !mb-2">
       {{ title }}
     </h1>

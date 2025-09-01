@@ -12,9 +12,9 @@ const colorMap = Object.entries(UnoColors)
 
 <template>
   <div class="preset-themes-page">
-    <Title title="预设主题色" />
+    <Title title="预设主题色" desc="预设色卡" />
 
-    <ContentCard title="预设色卡">
+    <ContentCard title="UnoCSS 预设主题">
       <div v-if="colorMap.length">
         <div
           v-for="colorPalette in colorMap"
