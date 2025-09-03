@@ -8,7 +8,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
     CodeBlock: typeof import('./src/components/CodeBlock.vue')['default']
     ColorInput: typeof import('./src/components/ColorInput.vue')['default']
@@ -17,8 +16,11 @@ declare module 'vue' {
     ContentCard: typeof import('./src/components/ContentCard.vue')['default']
     CopyButton: typeof import('./src/components/CopyButton.vue')['default']
     Divider: typeof import('primevue/divider')['default']
+    Github: typeof import('./src/components/Github.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    Magicolor: typeof import('./src/components/Magicolor.vue')['default']
     Message: typeof import('primevue/message')['default']
+    Picker: typeof import('./src/components/Picker.vue')['default']
     RatioTable: typeof import('./src/components/RatioTable.vue')['default']
     RatioTableSquare: typeof import('./src/components/RatioTableSquare.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

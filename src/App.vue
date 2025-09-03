@@ -9,6 +9,19 @@ const menuItems: Array<{ label: string, icon: string, route: string, separator?:
 ]
 
 const { themeColor } = useThemeColor()
+const { isUtools } = useUtools()
+
+function onNavigate(event: Event, link: string) {
+  event.stopPropagation()
+  event.preventDefault()
+
+  if (isUtools.value) {
+    window.utools.shellOpenExternal(link)
+  }
+  else {
+    window.open(link, '_blank')
+  }
+}
 </script>
 
 <template>
@@ -18,9 +31,12 @@ const { themeColor } = useThemeColor()
         <ScrollPanel class="flex-1 h-0">
           <div class="flex items-center justify-between p-4">
             <h3 class="text-lg font-bold m-0 text-[color:var(--p-text-color)]">
-              MagicColor uTools
+              Magicolor uTools
             </h3>
-            <ThemeToggle text />
+            <div class="fcc gap-2">
+              <Picker v-if="isUtools" size="small" text />
+              <ThemeToggle size="small" text />
+            </div>
           </div>
           <Divider class="!m-0" />
           <ul class="list-none m-0 p-2">
@@ -42,10 +58,11 @@ const { themeColor } = useThemeColor()
         <a
           v-ripple
           target="_blank"
-          href="https://github.com/zyyv/magic-color"
+          href="https://github.com/zhangmo8/utools-magic-color"
           class="no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
+          @click="onNavigate($event, 'https://github.com/zhangmo8/utools-magic-color')"
         >
-          <i class="pi pi-github !text-7" />
+          <Github />
           <div class="font-bold">Github</div>
         </a>
         <a
@@ -53,9 +70,10 @@ const { themeColor } = useThemeColor()
           target="_blank"
           href="https://github.com/zyyv/magic-color"
           class="mt-2 no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
+          @click="onNavigate($event, 'https://github.com/zyyv/magic-color')"
         >
-          <Avatar image="https://raw.githubusercontent.com/zyyv/magic-color/main/public/logo.svg" shape="circle" />
-          <div class="font-bold">MagicColor</div>
+          <Magicolor text-32px />
+          <div class="font-bold">Magicolor</div>
         </a>
       </div>
 
