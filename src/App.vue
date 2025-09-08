@@ -10,6 +10,18 @@ const menuItems: Array<{ label: string, icon: string, route: string, separator?:
 
 const { themeColor } = useThemeColor()
 const { isUtools } = useUtools()
+const router = useRouter()
+
+onMounted(() => {
+  if (isUtools.value) {
+    router.push('/color-transform')
+    utools.onPluginEnter(({ type, payload }) => {
+      if (type === 'regex') {
+        themeColor.value = payload
+      }
+    })
+  }
+})
 
 function onNavigate(event: Event, link: string) {
   event.stopPropagation()
@@ -42,8 +54,7 @@ function onNavigate(event: Event, link: string) {
           <ul class="list-none m-0 p-2">
             <li v-for="item in menuItems" :key="item.label" class="[&+li]:mt-2">
               <RouterLink
-                :to="item.route"
-                class="no-underline w-full text-base fc p-4 gap-3 hbg rounded cursor-pointer"
+                :to="item.route" class="no-underline w-full text-base fc p-4 gap-3 hbg rounded cursor-pointer"
                 :class="[{ activeBg: item.route === $route.path }]"
               >
                 <i :class="item.icon" />
@@ -56,9 +67,7 @@ function onNavigate(event: Event, link: string) {
         </ScrollPanel>
         <ColorInput v-model="themeColor" class="p-4 " />
         <a
-          v-ripple
-          target="_blank"
-          href="https://github.com/zhangmo8/utools-magic-color"
+          v-ripple target="_blank" href="https://github.com/zhangmo8/utools-magic-color"
           class="no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
           @click="onNavigate($event, 'https://github.com/zhangmo8/utools-magic-color')"
         >
@@ -66,9 +75,7 @@ function onNavigate(event: Event, link: string) {
           <div class="font-bold">Github</div>
         </a>
         <a
-          v-ripple
-          target="_blank"
-          href="https://github.com/zyyv/magic-color"
+          v-ripple target="_blank" href="https://github.com/zyyv/magic-color"
           class="mt-2 no-underline w-full text-base fc p-4 gap-2 hbg rounded-none cursor-pointer"
           @click="onNavigate($event, 'https://github.com/zyyv/magic-color')"
         >
