@@ -10,6 +10,7 @@
     "dev": "pnpm --filter playground dev",
     "build": "pnpm --filter playground build",
     "preview": "pnpm --filter playground preview",
+    "deploy": "npm run build && wrangler deploy",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "dev:ray": "pnpm --filter raycast dev",
@@ -19,9 +20,11 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:devConf",
+    "@cloudflare/vite-plugin": "^1.12.4",
     "@types/node": "catalog:types",
     "eslint": "catalog:devConf",
     "taze": "catalog:taze",
-    "typescript": "catalog:devConf"
+    "typescript": "catalog:devConf",
+    "wrangler": "^4.35.0"
   }
 }

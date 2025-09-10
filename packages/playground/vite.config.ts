@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { cloudflare } from '@cloudflare/vite-plugin'
 import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
@@ -31,6 +32,7 @@ export default defineConfig({
         PrimeVueResolver(),
       ],
     }),
+    cloudflare({}),
   ],
   resolve: {
     alias: {
