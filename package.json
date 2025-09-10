@@ -1,43 +1,27 @@
 {
-  "name": "utools-magic-color",
+  "name": "magicolor-extension",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "private": true,
+  "description": "Finding the magic in the colors of you",
+  "author": "zhangmo8",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
+    "dev": "pnpm --filter playground dev",
+    "build": "pnpm --filter playground build",
+    "preview": "pnpm --filter playground preview",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
-  },
-  "dependencies": {
-    "@primevue/themes": "^4.3.7",
-    "@vueuse/core": "^13.7.0",
-    "magic-color": "^2.0.3",
-    "primeicons": "^7.0.0",
-    "primevue": "^4.3.7",
-    "shiki": "^3.12.0",
-    "vue": "^3.5.19",
-    "vue-router": "^4.5.1"
+    "lint:fix": "eslint --fix",
+    "dev:ray": "pnpm --filter raycast dev",
+    "build:ray": "pnpm --filter raycast build",
+    "publish:ray": "pnpm --filter raycast publish",
+    "taze": "taze major -wIr && pnpm -r --parallel run update-post"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "@iconify-json/carbon": "^1.2.13",
-    "@iconify-json/logos": "^1.2.4",
-    "@iconify/vue": "^5.0.0",
-    "@primevue/auto-import-resolver": "^4.3.7",
-    "@types/node": "^24.3.0",
-    "@unocss/eslint-config": "^0.65.4",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/tsconfig": "^0.8.1",
-    "eslint": "^9.33.0",
-    "taze": "^19.3.0",
-    "typescript": "~5.9.2",
-    "unocss": "^66.4.2",
-    "unplugin-auto-import": "^20.0.0",
-    "unplugin-vue-components": "^29.0.0",
-    "utools-api-types": "^7.2.0",
-    "vite": "^7.1.3",
-    "vue-tsc": "^3.0.6"
+    "@antfu/eslint-config": "catalog:devConf",
+    "@types/node": "catalog:types",
+    "eslint": "catalog:devConf",
+    "taze": "catalog:taze",
+    "typescript": "catalog:devConf"
   }
 }

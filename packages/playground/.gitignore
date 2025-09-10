@@ -139,14 +139,3 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 .playwright-mcp
-
-
-# Raycast specific files
-raycast-env.d.ts
-.raycast-swift-build
-.swiftpm
-compiled_raycast_swift
-compiled_raycast_rust
-
-# misc
-.DS_Store

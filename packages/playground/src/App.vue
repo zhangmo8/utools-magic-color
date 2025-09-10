@@ -21,6 +21,20 @@ onMounted(() => {
       }
     })
   }
+
+  try {
+    const params = new URLSearchParams(window.location.search)
+    const color = params.get('color')
+    const module = params.get('module')
+    if (color && color.trim().length > 0) {
+      localStorage.setItem('theme-color', color)
+    }
+    if (module && module.trim().length > 0) {
+      router.push('/color-transform')
+    }
+  }
+  catch {
+  }
 })
 
 function onNavigate(event: Event, link: string) {
