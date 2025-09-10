@@ -24,7 +24,7 @@ export default async function Command() {
   const [searchText, setSearchText] = useState('')
 
   const openUrl = async (url: string) => {
-    const baseUrl = environment.isDevelopment ? 'http://localhost:5173' : 'https://magic-color.vercel.app'
+    const baseUrl = environment.isDevelopment ? 'http://localhost:5173' : 'https://magicolor.zm8.dev'
     await open(`${baseUrl}${url}?color=${searchText}`, '_blank')
   }
 

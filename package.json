@@ -15,7 +15,7 @@
     "lint:fix": "eslint --fix",
     "dev:ray": "pnpm --filter raycast dev",
     "build:ray": "pnpm --filter raycast build",
-    "publish:ray": "pnpm --filter raycast publish",
+    "publish:ray": "pnpm --filter raycast publish -no-git-checks",
     "taze": "taze major -wIr && pnpm -r --parallel run update-post"
   },
   "devDependencies": {
