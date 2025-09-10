@@ -150,3 +150,5 @@ compiled_raycast_rust
 
 # misc
 .DS_Store
+
+.wrangler

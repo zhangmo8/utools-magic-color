@@ -1,9 +1,0 @@
-name = "magicolor-extension"
-compatibility_date = "2025-09-10"
-assets = { not_found_handling = "single-page-application" }
-
-[site]
-bucket = "packages/playground/dist"
-
-[build]
-command = "pnpm run build"

@@ -10,7 +10,7 @@
     "dev": "pnpm --filter playground dev",
     "build": "pnpm --filter playground build",
     "preview": "pnpm --filter playground preview",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "pnpm run build && wrangler deploy",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "dev:ray": "pnpm --filter raycast dev",
